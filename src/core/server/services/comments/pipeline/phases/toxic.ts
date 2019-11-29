@@ -1,6 +1,5 @@
 import { isNil } from "lodash";
 import ms from "ms";
-import fetch from "node-fetch";
 import path from "path";
 import { URL } from "url";
 
@@ -17,12 +16,18 @@ import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
 } from "coral-server/services/comments/pipeline";
+import { createFetch } from "coral-server/services/fetch";
 
 import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
   GQLPerspectiveExternalIntegration,
 } from "coral-server/graph/tenant/schema/__generated__/types";
+
+/**
+ * fetch is the phase hook fetcher used to communicate with the Perspective API.
+ */
+const fetch = createFetch({ name: "Hooks" });
 
 export const toxic: IntermediateModerationPhase = async ({
   tenant,
